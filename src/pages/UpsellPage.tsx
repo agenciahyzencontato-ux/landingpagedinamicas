@@ -267,7 +267,7 @@ export default function UpsellPage() {
 
       {/* Floating Support Button */}
       <motion.a
-        href="https://wa.me/5537991831171?text=Ol%C3%A1%21+Gostaria+de+tirar+uma+d%C3%BAvida+sobre+o+Combo+VIP."
+        href="https://wa.me/553799056159?text=Ol%C3%A1%21+Gostaria+de+tirar+uma+d%C3%BAvida+sobre+o+Combo+VIP."
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[80] cursor-pointer"
