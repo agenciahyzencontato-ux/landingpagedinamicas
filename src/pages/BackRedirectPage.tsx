@@ -71,9 +71,9 @@ const OfferCard = ({
 
     <ul className="text-left space-y-3 mb-10 w-full font-bold text-slate-500 text-[13px]">
       {features.map((f, i) => (
-        <li key={i} className="flex items-center gap-2">
-          <CheckCircle2 size={14} className="text-brand-pink shrink-0" />
-          {f}
+        <li key={i} className="flex items-start gap-2">
+          <CheckCircle2 size={14} className="text-brand-pink shrink-0 mt-0.5" />
+          <span>{f}</span>
         </li>
       ))}
     </ul>
@@ -175,6 +175,7 @@ export default function BackRedirectPage() {
             icon={BookOpen}
             features={[
               "+250 Dinâmicas Interativas",
+              "+100 Dinâmicas Poderosas para Controle de Turma e Engajamento Infantil",
               "Acesso Vitalício",
               "Suporte via Email",
               "Material Pedagógico"
@@ -192,6 +193,7 @@ export default function BackRedirectPage() {
             highlight={true}
             features={[
               "TUDO do Plano Básico",
+              "+100 Dinâmicas Poderosas para Controle de Turma e Engajamento Infantil",
               "50 Brincadeiras Musicais",
               "Planner de Aulas Pronto",
               "Pack de Músicas Infantis",

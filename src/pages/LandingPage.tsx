@@ -609,10 +609,11 @@ export default function LandingPage() {
                 </div>
               </div>
               <ul className="text-left space-y-3.5 mb-10 w-full max-w-xs mx-auto font-bold text-slate-900 text-sm">
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-brand-pink" size={16} /> +250 Dinâmicas Interativas</li>
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-brand-pink" size={16} /> Suporte Especializado</li>
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-brand-pink" size={16} /> Acesso Vitalício</li>
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-brand-pink" size={16} /> Metodologia Comprovada</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+250 Dinâmicas Interativas</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+100 Dinâmicas Poderosas para Controle de Turma e Engajamento Infantil</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Suporte Especializado</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Acesso Vitalício</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Metodologia Comprovada</span></li>
               </ul>
 
               <div className="mb-8 w-full max-w-[320px]">
@@ -653,15 +654,16 @@ export default function LandingPage() {
                 <img src="https://i.ibb.co/jk6HZG69/image.png" alt="Formas de Pagamento" className="w-full h-auto object-contain" />
               </div>
               <ul className="text-left space-y-3.5 mb-10 w-full max-w-xs mx-auto font-bold text-slate-900 text-sm">
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-brand-purple" size={16} /> +250 Dinâmicas Interativas</li>
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-brand-purple" size={16} /> Atualizações Mensais</li>
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-brand-purple" size={16} /> Suporte VIP Prioritário</li>
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-brand-purple" size={16} /> Acesso Vitalício</li>
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-brand-purple" size={16} /> Metodologia Comprovada</li>
-                <li className="flex items-center gap-3"><Gift className="text-brand-pink" size={16} /> Certificado com seu nome</li>
-                <li className="flex items-center gap-3"><Gift className="text-brand-pink" size={16} /> 50 Brincadeiras Musicais</li>
-                <li className="flex items-center gap-3"><Gift className="text-brand-pink" size={16} /> Planner de Aulas Pronto</li>
-                <li className="flex items-center gap-3"><Gift className="text-brand-pink" size={16} /> Pack de Músicas Infantis</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>+250 Dinâmicas Interativas</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>+100 Dinâmicas Poderosas para Controle de Turma e Engajamento Infantil</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>Atualizações Mensais</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>Suporte VIP Prioritário</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>Acesso Vitalício</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>Metodologia Comprovada</span></li>
+                <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Certificado com seu nome</span></li>
+                <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>50 Brincadeiras Musicais</span></li>
+                <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Planner de Aulas Pronto</span></li>
+                <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Pack de Músicas Infantis</span></li>
               </ul>
 
               <div className="mb-8 w-full max-w-[320px]">
