@@ -162,16 +162,16 @@ export default function LandingPage() {
       <motion.div className="fixed top-0 left-0 right-0 h-1 bg-brand-pink z-[100] origin-left" style={{ scaleX }} />
 
       {/* 1. Urgency Banner (Fixed) */}
-      <div className="fixed top-0 left-0 right-0 bg-red-600 text-white py-2.5 md:py-4 px-1 md:px-4 font-black uppercase z-[100] text-center overflow-hidden shadow-2xl leading-tight border-b-4 border-red-800 tracking-tighter md:tracking-[0.1em]">
+      <div className="fixed top-0 left-0 right-0 bg-brand-pink text-white py-2.5 md:py-4 px-1 md:px-4 font-black uppercase z-[100] text-center overflow-hidden shadow-2xl leading-tight border-b-4 border-white/20 tracking-tighter md:tracking-[0.1em]">
         <motion.div
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ duration: 1.5, repeat: Infinity }}
           className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 w-full"
         >
           <span className="drop-shadow-md text-center whitespace-nowrap w-full md:w-auto" style={{ fontSize: "clamp(12px, 3.5vw, 18px)" }}>
-            OFERTA ESPECIAL DIA DAS MÃES SOMENTE HOJE!
+            OFERTA EXCLUSIVA TERMINA HOJE!
           </span>
-          <span className="bg-white text-red-600 px-4 py-0.5 md:py-1 rounded-full text-[12px] md:text-[14px] shadow-md tracking-widest font-black shrink-0">
+          <span className="bg-white text-brand-pink px-4 py-0.5 md:py-1 rounded-full text-[12px] md:text-[14px] shadow-md tracking-widest font-black shrink-0">
             FALTAM {formatTime(timeLeft)}
           </span>
         </motion.div>
