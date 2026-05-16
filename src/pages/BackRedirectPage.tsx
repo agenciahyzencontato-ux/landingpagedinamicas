@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { 
-  CheckCircle2, 
-  ArrowRight, 
-  Zap, 
-  ShieldCheck, 
+import {
+  CheckCircle2,
+  ArrowRight,
+  Zap,
+  ShieldCheck,
   Sparkles,
   Gift,
   AlertCircle,
@@ -21,24 +21,24 @@ const COLORS = {
   white: '#FFFFFF',
 };
 
-const OfferCard = ({ 
-  title, 
-  price, 
+const OfferCard = ({
+  title,
+  price,
   cents = "90",
-  originalPrice, 
-  icon: Icon, 
-  features, 
-  ctaText, 
-  ctaUrl, 
-  highlight = false 
-}: { 
-  title: string, 
-  price: string, 
+  originalPrice,
+  icon: Icon,
+  features,
+  ctaText,
+  ctaUrl,
+  highlight = false
+}: {
+  title: string,
+  price: string,
   cents?: string,
-  originalPrice: string, 
-  icon: React.ElementType, 
-  features: string[], 
-  ctaText: string, 
+  originalPrice: string,
+  icon: React.ElementType,
+  features: string[],
+  ctaText: string,
   ctaUrl: string,
   highlight?: boolean
 }) => (
@@ -52,12 +52,12 @@ const OfferCard = ({
         MELHOR ESCOLHA
       </div>
     )}
-    
+
     <div className={`w-20 h-20 rounded-[24px] flex items-center justify-center mb-6 mt-4 shadow-xl ${highlight ? 'bg-brand-pink text-white shadow-brand-pink/20' : 'bg-slate-50 text-brand-purple'}`}>
       <Icon size={40} />
     </div>
     <h3 className="text-xl font-black text-brand-purple mb-4 uppercase italic tracking-tighter">{title}</h3>
-    
+
     <div className="mb-8">
       <span className="text-sm font-bold text-slate-300 block line-through mb-1">De R$ {originalPrice} por</span>
       <div className="flex items-center justify-center text-brand-purple">
@@ -80,9 +80,8 @@ const OfferCard = ({
 
     <button
       onClick={() => window.location.href = appendUTMsToUrl(ctaUrl)}
-      className={`w-full py-4 rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2 ${
-        highlight ? 'bg-brand-pink text-white shadow-lg shadow-brand-pink/20' : 'bg-slate-100 text-slate-800'
-      }`}
+      className={`w-full py-4 rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2 ${highlight ? 'bg-brand-pink text-white shadow-lg shadow-brand-pink/20' : 'bg-slate-100 text-slate-800'
+        }`}
     >
       {ctaText} <ArrowRight size={18} />
     </button>
@@ -132,7 +131,7 @@ export default function BackRedirectPage() {
         <div className="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-brand-pink/10 rounded-full blur-[100px]" />
       </div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-4xl w-full text-center mx-auto pt-44 pb-16 px-6"
@@ -140,12 +139,12 @@ export default function BackRedirectPage() {
         <div className="inline-flex items-center gap-2 bg-brand-yellow text-brand-purple px-6 py-2 rounded-2xl font-black text-sm uppercase tracking-tighter mb-8 shadow-xl">
           <AlertCircle size={18} /> ESPERE! ÚLTIMA CHANCE!
         </div>
-        
+
         <h1 className="text-4xl md:text-6xl font-black text-brand-purple italic leading-none tracking-tighter mb-6">
           NÃO VÁ EMBORA <br />
           <span className="text-brand-pink">SEM O SEU ACERVO!</span>
         </h1>
-        
+
         <p className="text-slate-500 font-bold text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
           Liberei um desconto radical de <span className="text-brand-purple underline decoration-brand-yellow decoration-4">última hora</span> para você não ficar de fora. Escolha o seu plano agora:
         </p>
@@ -158,16 +157,16 @@ export default function BackRedirectPage() {
         >
           <div className="absolute -inset-1 bg-gradient-to-r from-brand-yellow via-brand-pink to-brand-purple rounded-[32px] blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
           <div className="relative rounded-[30px] overflow-hidden shadow-2xl border-4 border-white">
-            <img 
-              src="https://i.ibb.co/BVyZMRg7/image.png" 
-              alt="Banner de Desconto" 
+            <img
+              src="https://i.ibb.co/BVyZMRg7/image.png"
+              alt="Banner de Desconto"
               className="w-full h-auto object-cover transform transition-transform duration-500 group-hover:scale-[1.02]"
             />
           </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto px-4">
-          <OfferCard 
+          <OfferCard
             title="Plano Básico"
             price="7"
             cents="90"
@@ -184,7 +183,7 @@ export default function BackRedirectPage() {
             ctaUrl="https://ggcheckout.app/checkout/v5/LgNSmBL5gMbbfoe14zKc"
           />
 
-          <OfferCard 
+          <OfferCard
             title="Plano Premium"
             price="14"
             cents="90"
@@ -208,7 +207,7 @@ export default function BackRedirectPage() {
           <p className="text-slate-400 font-bold text-sm flex items-center gap-2">
             <ShieldCheck size={16} /> Compra 100% Segura & Acesso Imediato
           </p>
-          <button 
+          <button
             onClick={() => window.history.back()}
             className="text-slate-300 font-bold text-xs underline hover:text-slate-400 transition-colors"
           >
