@@ -174,10 +174,11 @@ export default function BackRedirectPage() {
             icon={BookOpen}
             features={[
               "+250 Dinâmicas Interativas",
-              "+100 Dinâmicas Poderosas para Controle de Turma e Engajamento Infantil",
               "Acesso Vitalício",
               "Suporte via Email",
-              "Material Pedagógico"
+              "Material Pedagógico",
+              "+100 Dinâmicas Poderosas para Controle de Turma e Engajamento Infantil",
+              "+120 Dinâmicas de Inclusão, Socialização e Confiança Infantil"
             ]}
             ctaText="QUERO O BÁSICO"
             ctaUrl="https://ggcheckout.app/checkout/v5/LgNSmBL5gMbbfoe14zKc"
@@ -196,7 +197,9 @@ export default function BackRedirectPage() {
               "50 Brincadeiras Musicais",
               "Planner de Aulas Pronto",
               "Pack de Músicas Infantis",
-              "Certificado com seu nome"
+              "Certificado com seu nome",
+              "Guia de Dança Inclusiva",
+              "+120 Dinâmicas de Inclusão, Socialização e Confiança Infantil"
             ]}
             ctaText="QUERO O PREMIUM"
             ctaUrl="https://ggcheckout.app/checkout/v5/lPqDXADueo8lSWi1FZn1"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import {
   CheckCircle2,
@@ -6,6 +6,10 @@ import {
   Gift,
   ShieldCheck,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  MessageSquare,
   Zap,
   Heart,
   Smile,
@@ -105,6 +109,56 @@ const VSLPlayer = React.memo(() => {
 
 export default function LandingPage() {
   const [showUpsell, setShowUpsell] = useState(false);
+  const [selectedTestimonial, setSelectedTestimonial] = useState<string | null>(null);
+  const testimonialContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const autoScrollPaused = useRef(false);
+  const autoScrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleTestimonialScroll = () => {
+    if (testimonialContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = testimonialContainerRef.current;
+      const totalScrollable = scrollWidth - clientWidth;
+      if (totalScrollable > 0) {
+        setScrollProgress((scrollLeft / totalScrollable) * 100);
+      }
+    }
+  };
+
+  const scrollTestimonial = (direction: 'left' | 'right') => {
+    if (testimonialContainerRef.current) {
+      const { clientWidth } = testimonialContainerRef.current;
+      const scrollAmount = direction === 'left' ? -clientWidth * 0.8 : clientWidth * 0.8;
+      testimonialContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  const pauseAutoScroll = () => {
+    autoScrollPaused.current = true;
+    if (autoScrollTimer.current) clearTimeout(autoScrollTimer.current);
+    autoScrollTimer.current = setTimeout(() => {
+      autoScrollPaused.current = false;
+    }, 3000);
+  };
+
+  useEffect(() => {
+    const CARD_WIDTH = 296; // ~280px card + 16px gap
+    const INTERVAL = 2800;
+    const interval = setInterval(() => {
+      if (autoScrollPaused.current) return;
+      const el = testimonialContainerRef.current;
+      if (!el) return;
+      const { scrollLeft, scrollWidth, clientWidth } = el;
+      const atEnd = scrollLeft + clientWidth >= scrollWidth - 4;
+      if (atEnd) {
+        el.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        el.scrollBy({ left: CARD_WIDTH, behavior: 'smooth' });
+      }
+    }, INTERVAL);
+    return () => clearInterval(interval);
+  }, []);
+
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState(() => {
     const now = new Date();
@@ -162,7 +216,7 @@ export default function LandingPage() {
       <motion.div className="fixed top-0 left-0 right-0 h-1 bg-brand-pink z-[100] origin-left" style={{ scaleX }} />
 
       {/* 1. Urgency Banner (Fixed) */}
-      <div className="fixed top-0 left-0 right-0 bg-brand-pink text-white py-2.5 md:py-4 px-1 md:px-4 font-black uppercase z-[100] text-center overflow-hidden shadow-2xl leading-tight border-b-4 border-white/20 tracking-tighter md:tracking-[0.1em]">
+      <div className="w-full bg-brand-pink text-white py-2.5 md:py-4 px-1 md:px-4 font-black uppercase text-center overflow-hidden shadow-2xl leading-tight border-b-4 border-white/20 tracking-tighter md:tracking-[0.1em]">
         <motion.div
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ duration: 1.5, repeat: Infinity }}
@@ -178,7 +232,7 @@ export default function LandingPage() {
       </div>
 
       {/* Floating Header */}
-      <nav className="fixed top-[90px] md:top-16 left-1/2 -translate-x-1/2 w-[95%] md:w-[90%] max-w-4xl z-50">
+      <nav className="sticky top-2 z-50 w-[95%] md:w-[90%] max-w-4xl mx-auto">
         <div className="glass rounded-2xl px-4 md:px-5 py-2 md:py-2.5 flex justify-between items-center shadow-xl border-2 border-white/50">
           <img src="https://i.ibb.co/Wv2LjQz6/image.png" alt="Logo" className="h-12 w-auto scale-[2.2] origin-left ml-6" />
           <div className="hidden md:flex items-center gap-6 font-bold text-slate-600 text-[13px]">
@@ -196,7 +250,7 @@ export default function LandingPage() {
       </nav>
 
       {/* 2. Hero Section */}
-      <section className="relative pt-36 pb-8 px-6 overflow-hidden">
+      <section className="relative pt-6 pb-8 px-6 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full -z-10">
           <div className="absolute top-20 left-[10%] w-64 h-64 bg-brand-pink/5 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-[10%] w-80 h-80 bg-brand-purple/10 rounded-full blur-3xl opacity-50" />
@@ -254,15 +308,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            className="mt-8 text-center max-w-sm px-4"
-          >
-            <p className="text-slate-400 font-normal italic text-sm leading-relaxed max-w-sm mx-auto">
-              "Ensinar dança para crianças vai muito além de passos… é sobre criar momentos que elas nunca vão esquecer. Esse material foi feito para transformar suas aulas em experiências leves, divertidas e cheias de energia."
-            </p>
-          </motion.div>
+
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -270,10 +316,11 @@ export default function LandingPage() {
             className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
               whileTap={{ scale: 0.95 }}
               onClick={scrollToPlans}
-              className="bg-brand-purple text-white px-8 py-3.5 md:py-5 rounded-2xl font-black text-lg shadow-brand hover:translate-y-[-2px] active:translate-y-[4px] active:shadow-none transition-all flex items-center gap-2"
+              className="bg-brand-purple text-white px-8 py-3.5 md:py-5 rounded-2xl font-black text-lg shadow-brand transition-colors flex items-center gap-2 cursor-pointer"
             >
               QUERO MINHAS DINÂMICAS AGORA <Play size={18} fill="currentColor" />
             </motion.button>
@@ -284,63 +331,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 3. O que a pessoa vai receber (Dynamic Grid) */}
-      <section id="oq-receber" className="py-20 px-6 bg-slate-50 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeading
-            title="O que preparamos para vocês"
-            subtitle="Explore o conteúdo"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              {
-                title: "Criatividade & Magia",
-                desc: "Dinâmicas que despertam a imaginação através de desafios lúdicos.",
-                color: "bg-brand-pink",
-                icon: Sparkles
-              },
-              {
-                title: "Ritmo & Energia",
-                desc: "Atividades focadas no desenvolvimento motor e rítmico contagiante.",
-                color: "bg-brand-purple",
-                icon: Zap
-              },
-              {
-                title: "União & Socialização",
-                desc: "Ferramentas para fortalecer os laços através do movimento.",
-                color: "bg-brand-yellow",
-                icon: Smile
-              }
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -5 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white rounded-[24px] shadow-sm border border-slate-100 overflow-hidden group hover:shadow-md transition-all flex flex-col"
-              >
-                <div className={`h-1.5 w-full ${item.color}`} />
-                <div className="p-6">
-                  <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mb-4 group-hover:bg-slate-100 transition-colors">
-                    <item.icon size={20} className="text-slate-400 group-hover:text-brand-purple transition-colors" />
-                  </div>
-
-                  <h3 className="text-base font-black text-brand-purple mb-2 tracking-tight italic">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-slate-500 font-bold text-[13px] leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* 4. Para quem é & Solução */}
       <section className="py-24 px-6 bg-white relative overflow-hidden">
@@ -462,7 +452,7 @@ export default function LandingPage() {
       </section>
 
       {/* 5. O Que Você Vai Receber? */}
-      <section className="py-24 px-6 bg-slate-50/50 relative overflow-hidden">
+      <section id="oq-receber" className="py-24 px-6 bg-slate-50/50 relative overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20">
             <Badge className="bg-brand-pink/10 text-brand-pink mb-4">Conteúdo Completo</Badge>
@@ -503,6 +493,130 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 5.5 Depoimentos de Alunas (Carrossel) */}
+      <section className="py-24 px-6 bg-gradient-to-b from-slate-50/50 via-brand-pink/5 to-white relative overflow-hidden">
+        {/* Decorative Background Blurs */}
+        <div className="absolute top-1/4 left-0 w-72 h-72 bg-brand-purple/10 rounded-full blur-3xl opacity-60 pointer-events-none" />
+        <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-brand-pink/10 rounded-full blur-3xl opacity-50 pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto relative">
+          <div className="text-center mb-16 relative">
+            <Badge className="bg-brand-pink/10 text-brand-pink mb-4">
+              <Star size={12} fill="currentColor" className="text-brand-yellow animate-pulse" /> Aprovado por Professores e Pais
+            </Badge>
+            <h2 className="text-3xl md:text-5xl font-black text-brand-purple italic mb-6 leading-tight">
+              Depoimentos de <span className="text-brand-pink underline decoration-brand-yellow decoration-4 underline-offset-8">Alunas</span>
+            </h2>
+            <p className="max-w-2xl mx-auto text-slate-500 font-bold text-sm md:text-base leading-relaxed uppercase tracking-wide">
+              Veja a transformação real na prática de quem já está aplicando as nossas dinâmicas de dança infantil!
+            </p>
+          </div>
+
+          {/* Carrossel Wrapper */}
+          <div className="relative group px-0 md:px-12">
+            {/* Botão Prev */}
+            <button
+              onClick={() => scrollTestimonial('left')}
+              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full glass items-center justify-center text-brand-purple hover:bg-brand-purple hover:text-white shadow-lg active:scale-95 transition-all opacity-0 group-hover:opacity-100 cursor-pointer border border-brand-purple/10"
+              aria-label="Depoimento Anterior"
+            >
+              <ChevronLeft size={24} />
+            </button>
+
+            {/* Botão Next */}
+            <button
+              onClick={() => scrollTestimonial('right')}
+              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full glass items-center justify-center text-brand-purple hover:bg-brand-purple hover:text-white shadow-lg active:scale-95 transition-all opacity-0 group-hover:opacity-100 cursor-pointer border border-brand-purple/10"
+              aria-label="Próximo Depoimento"
+            >
+              <ChevronRight size={24} />
+            </button>
+
+            {/* Carrossel Track */}
+            <div
+              ref={testimonialContainerRef}
+              onScroll={handleTestimonialScroll}
+              onMouseDown={pauseAutoScroll}
+              onTouchStart={pauseAutoScroll}
+              className="flex gap-6 overflow-x-auto snap-x snap-mandatory py-6 scroll-smooth cursor-grab active:cursor-grabbing px-4 md:px-0"
+              style={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+              }}
+            >
+              {/* Inject inline style to hide scrollbar on Chrome/Safari/Webkit */}
+              <style dangerouslySetInnerHTML={{__html: `
+                div::-webkit-scrollbar {
+                  display: none !important;
+                }
+              `}} />
+
+              {[
+                { img: "/depoimentos - Dança/IMG_4339.PNG" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.27.11.jpeg" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.39.37.jpeg" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.39.38 (1).jpeg" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.39.38 (2).jpeg" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.39.38.jpeg" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.39.39 (1).jpeg" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.39.39 (2).jpeg" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.39.39 (3).jpeg" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.39.39.jpeg" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.39.40 (1).jpeg" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.39.40 (2).jpeg" },
+                { img: "/depoimentos - Dança/WhatsApp Image 2026-05-25 at 23.39.40.jpeg" }
+              ].map((testimonial, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  onClick={() => setSelectedTestimonial(testimonial.img)}
+                  className="w-[280px] sm:w-[320px] shrink-0 snap-center cursor-pointer relative group/card rounded-3xl overflow-hidden bg-white p-3 border-2 border-slate-100 hover:border-brand-pink/30 hover:shadow-[0_20px_40px_rgba(241,22,203,0.1)] transition-all"
+                >
+                  <div className="rounded-2xl overflow-hidden bg-slate-50 relative">
+                    <img
+                      src={encodeURI(testimonial.img)}
+                      alt={`Depoimento ${i + 1}`}
+                      className="w-full h-auto block select-none group-hover/card:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                    
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-brand-purple/20 backdrop-blur-[2px] opacity-0 group-hover/card:opacity-100 flex flex-col items-center justify-center gap-2 transition-all duration-300">
+                      <div className="w-12 h-12 rounded-full bg-white text-brand-purple flex items-center justify-center shadow-lg transform translate-y-4 group-hover/card:translate-y-0 transition-transform duration-300">
+                        <Eye size={20} />
+                      </div>
+                      <span className="text-white text-xs font-black uppercase tracking-wider drop-shadow-md">Ver em tela cheia</span>
+                    </div>
+
+                    {/* Badge Indicator */}
+                    <div className="absolute top-3 left-3 bg-brand-purple/95 text-white text-[9px] font-black uppercase px-2.5 py-1 rounded-full shadow-md flex items-center gap-1.5 backdrop-blur-sm tracking-widest border border-white/10">
+                      <MessageSquare size={10} /> Depoimento
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Barra de Progresso e Indicador de Navegação */}
+          <div className="mt-8 max-w-xs mx-auto flex flex-col items-center gap-3">
+            <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden relative border border-slate-50">
+              <motion.div
+                className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-brand-purple to-brand-pink rounded-full"
+                style={{ width: `${scrollProgress}%` }}
+                layoutId="scrollBar"
+              />
+            </div>
+            <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest animate-pulse flex items-center gap-2">
+              ↔ Arraste para o lado ou use as setas
+            </span>
+          </div>
+        </div>
+      </section>
+
       {/* 6. Bônus (Cards) */}
       <section className="py-20 px-6 bg-white overflow-hidden">
         <div className="max-w-5xl mx-auto">
@@ -528,6 +642,11 @@ export default function LandingPage() {
                 title: "Pack de Músicas Infantis",
                 image: "https://i.ibb.co/TBmy2yLw/image.png",
                 desc: "Curadoria pronta para você não perder tempo procurando. Playlists divididas por faixa etária."
+              },
+              {
+                title: "Guia de Dança Inclusiva",
+                image: "/inclusao.png",
+                desc: "Estratégias e dinâmicas adaptadas para incluir crianças com necessidades especiais de forma leve e acolhedora."
               }
             ].map((bonus, i) => (
               <motion.div
@@ -610,10 +729,11 @@ export default function LandingPage() {
               </div>
               <ul className="text-left space-y-3.5 mb-10 w-full max-w-xs mx-auto font-bold text-slate-900 text-sm">
                 <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+250 Dinâmicas Interativas</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+100 Dinâmicas Poderosas para Controle de Turma e Engajamento Infantil</span></li>
                 <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Suporte Especializado</span></li>
                 <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Acesso Vitalício</span></li>
                 <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Metodologia Comprovada</span></li>
+                <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+100 Dinâmicas Poderosas para Controle de Turma e Engajamento Infantil</span></li>
+                <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+120 Dinâmicas de Inclusão, Socialização e Confiança Infantil</span></li>
               </ul>
 
               <div className="mb-8 w-full max-w-[320px]">
@@ -654,16 +774,18 @@ export default function LandingPage() {
                 <img src="https://i.ibb.co/jk6HZG69/image.png" alt="Formas de Pagamento" className="w-full h-auto object-contain" />
               </div>
               <ul className="text-left space-y-3.5 mb-10 w-full max-w-xs mx-auto font-bold text-slate-900 text-sm">
-                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>+250 Dinâmicas Interativas</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>+100 Dinâmicas Poderosas para Controle de Turma e Engajamento Infantil</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>Atualizações Mensais</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>Suporte VIP Prioritário</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>Acesso Vitalício</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-purple shrink-0 mt-0.5" size={16} /> <span>Metodologia Comprovada</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+250 Dinâmicas Interativas</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+100 Dinâmicas Poderosas para Controle de Turma e Engajamento Infantil</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Atualizações Mensais</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Suporte VIP Prioritário</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Acesso Vitalício</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Metodologia Comprovada</span></li>
                 <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Certificado com seu nome</span></li>
                 <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>50 Brincadeiras Musicais</span></li>
                 <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Planner de Aulas Pronto</span></li>
                 <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Pack de Músicas Infantis</span></li>
+                <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Guia de Dança Inclusiva</span></li>
+                <li className="flex items-start gap-3"><Gift className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+120 Dinâmicas de Inclusão, Socialização e Confiança Infantil</span></li>
               </ul>
 
               <div className="mb-8 w-full max-w-[320px]">
@@ -833,6 +955,52 @@ export default function LandingPage() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Testimonials Lightbox Modal */}
+      <AnimatePresence>
+        {selectedTestimonial && (
+          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
+              onClick={() => setSelectedTestimonial(null)}
+            />
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative z-10 w-full max-w-md max-h-[85vh] flex flex-col items-center justify-center"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedTestimonial(null)}
+                className="absolute -top-12 right-2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
+                aria-label="Fechar Modal"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="w-full bg-white rounded-[32px] overflow-hidden p-3 shadow-2xl border-4 border-brand-yellow aspect-[9/16] flex items-center justify-center max-h-[75vh]">
+                <img
+                  src={encodeURI(selectedTestimonial)}
+                  alt="Depoimento em tela cheia"
+                  className="w-full h-full object-contain rounded-2xl select-none"
+                />
+              </div>
+
+              <div className="mt-4 text-center">
+                <span className="text-white/60 text-xs font-black uppercase tracking-widest bg-white/5 px-4 py-1.5 rounded-full border border-white/10">
+                  Clique fora para fechar
+                </span>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Floating Support Button */}
       <motion.a
         href="https://wa.me/553799056159?text=Ol%C3%A1%21+Gostaria+de+tirar+uma+d%C3%BAvida+sobre+as+Din%C3%A2micas."
