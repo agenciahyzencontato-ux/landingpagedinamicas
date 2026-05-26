@@ -728,6 +728,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <ul className="text-left space-y-3.5 mb-10 w-full max-w-xs mx-auto font-bold text-slate-900 text-sm">
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Pagamento Único</span></li>
                 <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+250 Dinâmicas Interativas</span></li>
                 <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Suporte Especializado</span></li>
                 <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Acesso Vitalício</span></li>
@@ -759,6 +760,7 @@ export default function LandingPage() {
 
               <h3 className="text-xl font-black text-brand-purple mb-6 uppercase mt-6 tracking-widest">Plano Premium</h3>
               <div className="mb-6">
+                <span className="text-sm font-bold text-slate-300 block mb-1">Pagamento Único</span>
                 <span className="text-sm font-bold text-brand-pink block line-through opacity-40 mb-1">De R$ 97,00 por</span>
                 <div className="flex items-center justify-center text-brand-purple">
                   <span className="text-xl font-bold self-start mt-2">R$</span>
@@ -774,6 +776,7 @@ export default function LandingPage() {
                 <img src="https://i.ibb.co/jk6HZG69/image.png" alt="Formas de Pagamento" className="w-full h-auto object-contain" />
               </div>
               <ul className="text-left space-y-3.5 mb-10 w-full max-w-xs mx-auto font-bold text-slate-900 text-sm">
+                <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Pagamento Único</span></li>
                 <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+250 Dinâmicas Interativas</span></li>
                 <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>+100 Dinâmicas Poderosas para Controle de Turma e Engajamento Infantil</span></li>
                 <li className="flex items-start gap-3"><CheckCircle2 className="text-brand-pink shrink-0 mt-0.5" size={16} /> <span>Atualizações Mensais</span></li>
