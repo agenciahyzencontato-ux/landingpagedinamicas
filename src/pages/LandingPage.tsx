@@ -89,7 +89,7 @@ const Decoration = ({ className = "", delay = 0, size = 10 }: { className?: stri
 const VSLPlayer = React.memo(() => {
   useEffect(() => {
     const s = document.createElement("script");
-    s.src = "https://scripts.converteai.net/ab14c621-69de-4bc7-ad1a-73b273a93155/players/69ff915a6e950e64683f031d/v4/player.js";
+    s.src = "https://scripts.converteai.net/ab14c621-69de-4bc7-ad1a-73b273a93155/players/6a1a6a630a1a9511c6a55b72/v4/player.js";
     s.async = true;
     document.head.appendChild(s);
   }, []);
@@ -99,7 +99,7 @@ const VSLPlayer = React.memo(() => {
       className="absolute inset-0 z-10 flex items-center justify-center"
       dangerouslySetInnerHTML={{
         __html: `
-        <vturb-smartplayer id="vid-69ff915a6e950e64683f031d" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>
+        <vturb-smartplayer id="vid-6a1a6a630a1a9511c6a55b72" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>
       `}}
     />
   );
